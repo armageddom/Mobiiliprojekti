@@ -44,7 +44,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String parsedString = "";
 
         //URL laitetaan minne lähetetään
-        String login_url = "https://shrouded-oasis-85914.herokuapp.com/users";
+        String login_url = "https://shrouded-oasis-85914.herokuapp.com/foods";
         if (type.equals("login")){
             try {
                 String user_name = params[1];
@@ -72,7 +72,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
                 //Read income responnses
 
-                InputStream inputStream = httpURLConnection.getInputStream();
+                InputStream is = httpURLConnection.getInputStream();
+                parsedString = convertinputStreamToString(is);
+
+
+              /*  InputStream inputStream = httpURLConnection.getInputStream();
                // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String result="";
@@ -81,9 +85,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     result+=line;
                 }
                 bufferedReader.close();
-                inputStream.close();
+                inputStream.close();*/
                 httpURLConnection.disconnect();
-                return result;
+                return parsedString;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -114,6 +118,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
                 InputStream is = httpConn.getInputStream();
                 parsedString = convertinputStreamToString(is);
+                httpConn.disconnect();
                 return parsedString;
             } catch (ProtocolException e) {
                 e.printStackTrace();
@@ -132,7 +137,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             String uname = params[3];
             String uemail = params[4];
             String upassword = params[5];
-            parsedString = fname+"\n"+sname+"\n"+uname+"\n"+uemail+"\n"+upassword;
+
 
             try {
                 JSONObject jsonObject1 = new JSONObject();
@@ -142,7 +147,30 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 jsonObject1.put("Email", uemail);
                 jsonObject1.put("Password", upassword);
                 String jsonToString = jsonObject1.toString();
+
+                URL url = new URL(login_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedWriter.write(jsonToString);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                InputStream is = httpURLConnection.getInputStream();
+                parsedString = convertinputStreamToString(is);
+
+
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 

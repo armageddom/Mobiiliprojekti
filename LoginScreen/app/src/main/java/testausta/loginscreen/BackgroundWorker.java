@@ -46,20 +46,22 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String parsedString = "";
 
         //URL laitetaan minne lähetetään
-        String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
+        String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/login";
+        String register_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
         if (type.equals("login")){
             try {
                 String user_name = params[1];
                 String password = params[2];
                 // Tehdään JsonOnjecti
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("username",user_name);
-                jsonObject.put("password",password);
+                jsonObject.put("Username",user_name);
+                jsonObject.put("Password",password);
                 String jsonstring = jsonObject.toString();
 
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type","application/json");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
@@ -143,17 +145,17 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             try {
                 JSONObject jsonObject1 = new JSONObject();
-                jsonObject1.put("FirstName", fname);
-                jsonObject1.put("Surname", sname);
-                jsonObject1.put("username", uname);
+                jsonObject1.put("Firstname", fname);
+                jsonObject1.put("Lastname", sname);
+                jsonObject1.put("Username", uname);
                 jsonObject1.put("Email", uemail);
                 jsonObject1.put("Password", upassword);
                 String jsonToString = jsonObject1.toString();
                 String kalle = jsonToString;
                 Log.d("homokalle",kalle);
-                URL url = new URL(login_url);
+                URL url = new URL(register_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type","application/json");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
@@ -164,6 +166,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 outputStream.close();
 
                 InputStream is = httpURLConnection.getInputStream();
+
                 parsedString = convertinputStreamToString(is);
 
 

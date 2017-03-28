@@ -3,6 +3,8 @@ package testausta.loginscreen;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +46,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String parsedString = "";
 
         //URL laitetaan minne lähetetään
-        String login_url = "https://shrouded-oasis-85914.herokuapp.com/foods";
+        String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
         if (type.equals("login")){
             try {
                 String user_name = params[1];
@@ -147,7 +149,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 jsonObject1.put("Email", uemail);
                 jsonObject1.put("Password", upassword);
                 String jsonToString = jsonObject1.toString();
-
+                String kalle = jsonToString;
+                Log.d("homokalle",kalle);
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -174,7 +177,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
+
             return parsedString;
+
         }
         return null;
     }

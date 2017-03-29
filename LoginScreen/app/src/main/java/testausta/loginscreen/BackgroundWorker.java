@@ -2,6 +2,7 @@ package testausta.loginscreen;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,6 +29,18 @@ import java.net.URLEncoder;
  */
 
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
+
+    public interface AsyncResponse {
+        void processFinish(String output);
+    }
+
+    public AsyncResponse delegate = null;
+
+    public BackgroundWorker(AsyncResponse delegate){
+        this.delegate = delegate;
+    }
+
+
     Context context;
     AlertDialog alertDialog;
     BackgroundWorker(Context ctx) {
@@ -46,49 +59,47 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String parsedString = "";
 
         //URL laitetaan minne lähetetään
-        String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
+        String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/login";
+        String register_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
+
+
         if (type.equals("login")){
             try {
                 String user_name = params[1];
                 String password = params[2];
                 // Tehdään JsonOnjecti
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("username",user_name);
-                jsonObject.put("password",password);
+                jsonObject.put("Username",user_name);
+                jsonObject.put("Password",password);
                 String jsonstring = jsonObject.toString();
+                Log.d("Login", jsonstring);
 
+                // Otetaan osoite minne halutaan yhdistää ja annetaan RequestPropertyt mitä ollaan lähettämässä.
+                // Sen jälkeen lähetetään Jsonstringi eteenpäin.
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type","application/json");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-                // BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-               //  String post_data = URLEncoder.encode("user_name", "UTF-8")+"="+URLEncoder.encode(user_name, "UTF-8")+"&"
-               //          +URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8");
                 bufferedWriter.write(jsonstring);
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
 
-                //Read income responnses
+                //Otetaan tuleva data talteen
 
                 InputStream is = httpURLConnection.getInputStream();
                 parsedString = convertinputStreamToString(is);
+                //httpURLConnection.disconnect();
 
+                if(parsedString.equals("invalid"))
+                {
 
-              /*  InputStream inputStream = httpURLConnection.getInputStream();
-               // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String result="";
-                String line="";
-                while ((line = bufferedReader.readLine())!= null){
-                    result+=line;
                 }
-                bufferedReader.close();
-                inputStream.close();*/
-                httpURLConnection.disconnect();
+
                 return parsedString;
 
             } catch (MalformedURLException e) {
@@ -143,17 +154,20 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             try {
                 JSONObject jsonObject1 = new JSONObject();
-                jsonObject1.put("FirstName", fname);
-                jsonObject1.put("Surname", sname);
-                jsonObject1.put("username", uname);
+                jsonObject1.put("Firstname", fname);
+                jsonObject1.put("Lastname", sname);
+                jsonObject1.put("Username", uname);
                 jsonObject1.put("Email", uemail);
                 jsonObject1.put("Password", upassword);
                 String jsonToString = jsonObject1.toString();
                 String kalle = jsonToString;
                 Log.d("homokalle",kalle);
-                URL url = new URL(login_url);
+
+                // Otetaan osoite minne halutaan yhdistää ja annetaan RequestPropertyt mitä ollaan lähettämässä.
+                // Sen jälkeen lähetetään Jsonstringi eteenpäin.
+                URL url = new URL(register_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type","application/json");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
@@ -163,8 +177,17 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 bufferedWriter.close();
                 outputStream.close();
 
+                // Haetaan tuleva data
                 InputStream is = httpURLConnection.getInputStream();
+                // Muunnetaan tuleva data String muotoiseksi
                 parsedString = convertinputStreamToString(is);
+
+                if(parsedString.contains("ok"))
+                {
+                    //parsedString = "Kijautuminen onnistui!";
+                    Log.d("Vape","Kirjautuminen OK!");
+
+                }
 
 
             } catch (JSONException e) {
@@ -177,11 +200,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
-
+            alertDialog.setTitle("Register");
             return parsedString;
 
         }
-        return null;
+        return parsedString;
     }
 
     @Override
@@ -194,7 +217,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String parsedString) {
         alertDialog.setMessage(parsedString);
-        alertDialog.show();
+       // alertDialog.show();
+     //   delegate.processFinish(parsedString);
+
     }
 
     @Override
@@ -203,7 +228,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     }
 
 
-    ///// Kokeilua
+    ///// Kasataan tuleva inputstreami String muotoon
     public static String convertinputStreamToString(InputStream ists)
             throws IOException {
         if (ists != null) {

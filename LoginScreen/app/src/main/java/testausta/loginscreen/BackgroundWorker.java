@@ -61,8 +61,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         //URL laitetaan minne lähetetään
         String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/login";
         String register_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/dev_ville
         if (type.equals("login")){
             try {
                 String user_name = params[1];
@@ -162,9 +165,12 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 String jsonToString = jsonObject1.toString();
                 String kalle = jsonToString;
                 Log.d("homokalle",kalle);
+<<<<<<< HEAD
 
                 // Otetaan osoite minne halutaan yhdistää ja annetaan RequestPropertyt mitä ollaan lähettämässä.
                 // Sen jälkeen lähetetään Jsonstringi eteenpäin.
+=======
+>>>>>>> origin/dev_ville
                 URL url = new URL(register_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestProperty("Content-Type","application/json");
@@ -179,7 +185,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
                 // Haetaan tuleva data
                 InputStream is = httpURLConnection.getInputStream();
+<<<<<<< HEAD
                 // Muunnetaan tuleva data String muotoiseksi
+=======
+
+>>>>>>> origin/dev_ville
                 parsedString = convertinputStreamToString(is);
 
                 if(parsedString.contains("ok"))

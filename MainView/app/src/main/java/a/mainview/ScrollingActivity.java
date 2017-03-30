@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,94 +35,85 @@ import java.net.URL;
 
 public class ScrollingActivity extends AppCompatActivity {
 
-    String imageurl, description, drink_name;
-    int id;
+    int indeksi, id;
+    String food_name,description,imageurl;
+    ImageView[] imageArray = new ImageView[100];
+    TextView[] textArray = new TextView[100];
+
+    LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
+    LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
 
-        TextView topText = new TextView(this);
-        topText.setText("Suosituimmat5556665");
-        topText.setGravity(Gravity.CENTER_HORIZONTAL);
-
         JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
             @Override
             public void processFinish(String output) {
 
                 try {
-                    JSONObject json = new JSONObject(output);
-                    imageurl = json.getString("IMG_URL");
+                    JSONArray json = new JSONArray(output);
+                    /*imageurl = json.getString("IMG_URL");
                     description = json.getString("description");
-                    drink_name = json.getString("food_name");
-                    id = json.getInt("id");
+                    food_name = json.getString("food_name");
+                    id = json.getInt("id");*/
 
+                    LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
+                    layoutParamsImage.topMargin = 100;
 
+                    for(int i = 0; i < json.length(); i++) {
+                        JSONObject jsonobj = json.getJSONObject(i);
 
+                        /*System.out.println("imageurl : " + i + " = " + jsonobj.getString("IMG_URL"));
+                        System.out.println("description : " + i + " = " + jsonobj.getString("description"));
+                        System.out.println("food_name : " + i + " = " + jsonobj.getString("food_name"));
+                        System.out.println("id : " + i + " = " + jsonobj.getInt("id"));*/
+
+                        imageurl = jsonobj.getString("IMG_URL");
+                        description = jsonobj.getString("description");
+                        food_name = jsonobj.getString("food_name");
+                        id = jsonobj.getInt("id");
+
+                        ImageView foodimage = new ImageView(ScrollingActivity.this);
+                        foodimage.setImageResource(R.drawable.maksalaatikko);
+                        imageArray[i] = foodimage;
+
+                        TextView foodtext = new TextView(ScrollingActivity.this);
+                        foodtext.setText(food_name);
+                        textArray[i] = foodtext;
+
+                        imageArray[i].setLayoutParams(layoutParamsImage);
+                        mainLayout.addView(imageArray[i]);
+
+                        textArray[i].setLayoutParams(layoutParamsText);
+                        textArray[i].setGravity(Gravity.CENTER_HORIZONTAL);
+                        mainLayout.addView(textArray[i]);
+
+                        textArray[i].setText(food_name);
+                        textArray[i].setTag(food_name);
+                        imageArray[i].setTag(food_name);
+
+                        indeksi = i;
+
+                        imageArray[i].setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Toast.makeText(getBaseContext(), "You have selected " + imageArray[indeksi].getTag(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        textArray[i].setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Toast.makeText(getBaseContext(), "You have selected " + textArray[indeksi].getTag() + System.lineSeparator() +
+                                        "Description: " + description, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-        }).execute("https://shrouded-oasis-85914.herokuapp.com/drinks");
-
-        topText.setText(drink_name);
-
-        int indeksi = 0;
-        final ImageView[] imageArray = new ImageView[100];
-        TextView[] textArray = new TextView[100];
-
-        String[] ruoat = {"kaalilaatikko","meksikonpata", "silakat", "herkku", "torttu"};
-        int numberoffoods = ruoat.length;
-
-        while (indeksi < numberoffoods) {
-            ImageView foodimage = new ImageView(this);
-            foodimage.setImageResource(R.drawable.maksalaatikko);
-            imageArray[indeksi] = foodimage;
-
-            TextView foodname = new TextView(this);
-            foodname.setText(ruoat[indeksi]);
-            textArray[indeksi] = foodname;
-
-            indeksi++;
-        }
-        indeksi = 0;
-
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
-        LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
-        layoutParamsImage.topMargin = 100;
-
-        LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
-
-        mainLayout.addView(topText);
-
-        while (indeksi < numberoffoods) {
-            imageArray[indeksi].setLayoutParams(layoutParamsImage);
-            mainLayout.addView(imageArray[indeksi]);
-
-            textArray[indeksi].setLayoutParams(layoutParamsText);
-            textArray[indeksi].setGravity(Gravity.CENTER_HORIZONTAL);
-            mainLayout.addView(textArray[indeksi]);
-
-            final int ido = indeksi+1;
-            imageArray[indeksi].setTag(ruoat[indeksi]);
-
-            imageArray[indeksi].setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Toast.makeText(getBaseContext(), "You have selected " + imageArray[ido-1].getTag(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            textArray[indeksi].setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Toast.makeText(getBaseContext(), "You have selected " + imageArray[ido-1].getTag(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            indeksi++;
-        }
-        indeksi = 0;
+        }).execute("https://shrouded-oasis-85914.herokuapp.com/foods");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -134,15 +126,13 @@ public class ScrollingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_scrolling, menu);
+        Log.d("haudi", "8");
         return true;
     }
 

@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,10 +37,13 @@ import java.net.URL;
 
 public class ScrollingActivity extends AppCompatActivity {
 
-    int indeksi, id;
+    int indeksi, id, foodamount;
     String food_name,description,imageurl;
     ImageView[] imageArray = new ImageView[100];
     TextView[] textArray = new TextView[100];
+    String[] descriptionArray = new String[100];
+    String[] imgurlArray = new String[100];
+    int[] idArray = new int[100];
 
     LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
     LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
@@ -62,7 +67,9 @@ public class ScrollingActivity extends AppCompatActivity {
                     LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
                     layoutParamsImage.topMargin = 100;
 
-                    for(int i = 0; i < json.length(); i++) {
+                    foodamount = json.length();
+
+                    for(int i = 0; i < foodamount; i++) {
                         JSONObject jsonobj = json.getJSONObject(i);
 
                         /*System.out.println("imageurl : " + i + " = " + jsonobj.getString("IMG_URL"));
@@ -76,7 +83,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         id = jsonobj.getInt("id");
 
                         ImageView foodimage = new ImageView(ScrollingActivity.this);
-                        foodimage.setImageResource(R.drawable.maksalaatikko);
+                        //foodimage.setImageResource(R.drawable.maksalaatikko);
                         imageArray[i] = foodimage;
 
                         TextView foodtext = new TextView(ScrollingActivity.this);
@@ -93,19 +100,47 @@ public class ScrollingActivity extends AppCompatActivity {
                         textArray[i].setText(food_name);
                         textArray[i].setTag(food_name);
                         imageArray[i].setTag(food_name);
+                        textArray[i].setId(id);
+
+                        idArray[i] = id;
+                        descriptionArray[i] = description;
+                        imgurlArray[i] = (imageurl);
+
+                        Picasso.with(ScrollingActivity.this).load(imgurlArray[i]).into(imageArray[i]);
 
                         indeksi = i;
 
                         imageArray[i].setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                Toast.makeText(getBaseContext(), "You have selected " + imageArray[indeksi].getTag(), Toast.LENGTH_SHORT).show();
+
+                                String tagi = v.getTag().toString();
+                                int etsitäänid = 0;
+
+                                while(tagi != textArray[etsitäänid].getTag())
+                                {
+                                    etsitäänid++;
+                                }
+
+                                Toast.makeText(getBaseContext(), "You have selected " + imageArray[etsitäänid].getTag() + System.lineSeparator() +
+                                        "Description: " + descriptionArray[etsitäänid] + System.lineSeparator() +
+                                        "ID: " + idArray[etsitäänid], Toast.LENGTH_SHORT).show();
                             }
                         });
 
                         textArray[i].setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                Toast.makeText(getBaseContext(), "You have selected " + textArray[indeksi].getTag() + System.lineSeparator() +
-                                        "Description: " + description, Toast.LENGTH_SHORT).show();
+
+                                String tagi = v.getTag().toString();
+                                int etsitäänid = 0;
+
+                                while(tagi != textArray[etsitäänid].getTag())
+                                {
+                                    etsitäänid++;
+                                }
+
+                                Toast.makeText(getBaseContext(), "You have selected " + imageArray[etsitäänid].getTag() + System.lineSeparator() +
+                                        "Description: " + descriptionArray[etsitäänid] + System.lineSeparator() +
+                                        "ID: " + idArray[etsitäänid], Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -132,7 +167,6 @@ public class ScrollingActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_scrolling, menu);
-        Log.d("haudi", "8");
         return true;
     }
 
@@ -149,6 +183,9 @@ public class ScrollingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
 
 

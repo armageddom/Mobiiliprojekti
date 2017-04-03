@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 public class Register extends AppCompatActivity {
-EditText Firstname, Lastname, Username, Email, Password;
+EditText firstname, surname, username, email, password;
     AlertDialog alertDialog;
     Context context;
 
@@ -17,11 +17,11 @@ EditText Firstname, Lastname, Username, Email, Password;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Firstname = (EditText)findViewById(R.id.eFirstname);
-        Lastname = (EditText)findViewById(R.id.eSurname);
-        Username = (EditText)findViewById(R.id.eUsername);
-        Email = (EditText)findViewById(R.id.eMail);
-        Password = (EditText)findViewById(R.id.ePassword);
+        firstname = (EditText)findViewById(R.id.eFirstname);
+        surname = (EditText)findViewById(R.id.eSurname);
+        username = (EditText)findViewById(R.id.eUsername);
+        email = (EditText)findViewById(R.id.eMail);
+        password = (EditText)findViewById(R.id.ePassword);
     }
 
 
@@ -35,25 +35,25 @@ EditText Firstname, Lastname, Username, Email, Password;
     {
         int approved = 4;
         String notice = "";
-            String fname = Firstname.getText().toString();
+            String fname = firstname.getText().toString();
                 if(fname.length()<1)
                 {
                     notice = "You need to input a name\n";
                     approved--;
                 }
-            String sname = Lastname.getText().toString();
+            String sname = surname.getText().toString();
                 if(sname.length()<1)
                 {
                 notice = "You need to input a Surnamme\n";
                 approved--;
                 }
-            String uname = Username.getText().toString();
+            String uname = username.getText().toString();
                 if(uname.length()<1)
                 {
                     notice += "You need to input a Username\n";
                     approved--;
                 }
-            String uemail = Email.getText().toString();
+            String uemail = email.getText().toString();
                 if(uemail.contains("@") && uemail.contains("."))
                 {
                     approved++;
@@ -63,7 +63,7 @@ EditText Firstname, Lastname, Username, Email, Password;
                     notice += "You need to input valid Email\n";
                     approved--;
                 }
-            String upassword = Password.getText().toString();
+            String upassword = password.getText().toString();
                 if(upassword.length()<6)
                 {
                     notice += "Password must contain at least 6 characters\n";

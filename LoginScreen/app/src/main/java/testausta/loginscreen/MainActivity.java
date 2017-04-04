@@ -3,11 +3,14 @@ package testausta.loginscreen;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity  extends AppCompatActivity implements AsyncResponse {
 EditText username, password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,17 +18,22 @@ EditText username, password;
         username = (EditText)findViewById(R.id.eUsername);
         password = (EditText)findViewById(R.id.ePassword);
 
+
+
+
     }
 
-    void Login(View v)
+    public void Login(View v)
     {
+
         String uName, uPassword;
         uName = username.getText().toString();
         uPassword = password.getText().toString();
-        String type = "response";
+        String type = "login";
         username.setText("");
         password.setText("");
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.delegate = this;
         backgroundWorker.execute(type, uName, uPassword);
 
     }
@@ -34,6 +42,20 @@ EditText username, password;
     {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void processFinish(String output){
+    Log.d("ProcessFinished",output);
+
+        if(output.contains("ok"))
+        {
+            Toast.makeText(getBaseContext(),"Kirjautuminen onnistui",Toast.LENGTH_SHORT);
+        }
+        else
+        {
+            Toast.makeText(getBaseContext(),"Kirjautuminen epäonnistui!",Toast.LENGTH_SHORT);
+        }
     }
 
 

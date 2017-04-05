@@ -44,6 +44,12 @@ EditText username, password;
         startActivity(intent);
     }
 
+    void Testaus(View v)
+    {
+        Intent intent = new Intent(this,Newpost.class);
+        startActivity(intent);
+    }
+
     @Override
     public void processFinish(String output){
     Log.d("ProcessFinished",output);

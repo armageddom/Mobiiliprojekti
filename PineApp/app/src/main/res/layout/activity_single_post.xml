@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="pine.app.ScrollingActivity">
+    tools:context="pine.app.SinglePost">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,34 +29,10 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <Button
-                android:id="@+id/buttonFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ruoat"
-                android:onClick="getFoods"/>
-
-            <Button
-                android:id="@+id/buttonDrink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Juomat"
-                android:layout_gravity="right"
-                android:onClick="getDrinks"/>
-
-            <Button
-                android:id="@+id/buttonBoth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Molemmat"
-                android:layout_gravity="center_horizontal"
-                android:onClick="getBoth"/>
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_scrolling"
-        android:id="@+id/include" />
+    <include layout="@layout/content_single_post" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -66,15 +42,5 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_email" />
-
-    <Button
-        android:id="@+id/buttonEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="Tyhjennä"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|left"
-        android:onClick="emptyViews"/>
 
 </android.support.design.widget.CoordinatorLayout>

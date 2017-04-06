@@ -1,5 +1,6 @@
 package pine.app;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,7 +45,8 @@ public class ScrollingActivity extends AppCompatActivity {
     String[] descriptionArray = new String[100];
     String[] imgurlArray = new String[100];
     int[] idArray = new int[100];
-    Button buttonfood;
+    Button buttonfood, buttondrink, buttonboth, buttonempty;
+    boolean drinkstocome = false;
 
     LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
     LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
@@ -53,6 +55,11 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
+
+        buttonfood = (Button) findViewById(R.id.buttonFood);
+        buttondrink = (Button) findViewById(R.id.buttonDrink);
+        buttonboth = (Button) findViewById(R.id.buttonBoth);
+        buttonempty = (Button) findViewById(R.id.buttonEmpty);
 
         getBoth(buttonfood);
 
@@ -92,11 +99,13 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
     public void addDrinksToFoods() {
+        disableButtons();
         JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
             @Override
             public void processFinish(String output) {
 
                 try {
+
                     JSONArray json = new JSONArray(output);
                     layoutParamsImage.topMargin = 100;
                     drinkamount = json.length();
@@ -137,16 +146,20 @@ public class ScrollingActivity extends AppCompatActivity {
 
                         Picasso.with(ScrollingActivity.this).load(imgurlArray[indeksi]).into(imageArray[indeksi]);
                         setOnClickListeners();
+
+                        enableButtons();
+                        drinkstocome = false;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }).execute("https://shrouded-oasis-85914.herokuapp.com/drinks");
+        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks");
     }
 
 
     public void getBoth(View v) {
+        drinkstocome = true;
         getFoods(buttonfood);
         addDrinksToFoods();
     }
@@ -158,13 +171,16 @@ public class ScrollingActivity extends AppCompatActivity {
 
     public void getDrinks(View v) {
 
-        emptyViews();
+        disableButtons();
+        emptyViews(buttonfood);
 
         JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
             @Override
             public void processFinish(String output) {
 
                 try {
+
+
                     JSONArray json = new JSONArray(output);
                     layoutParamsImage.topMargin = 100;
                     drinkamount = json.length();
@@ -181,11 +197,12 @@ public class ScrollingActivity extends AppCompatActivity {
                         setTextsAndImages();
                         setOnClickListeners();
                     }
+                    enableButtons();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }).execute("https://shrouded-oasis-85914.herokuapp.com/drinks");
+        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks");
     }
 
 
@@ -195,13 +212,15 @@ public class ScrollingActivity extends AppCompatActivity {
 
     public void getFoods(View v) {
 
-        emptyViews();
+        disableButtons();
+        emptyViews(buttonfood);
 
         JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
             @Override
             public void processFinish(String output) {
 
                 try {
+
                     JSONArray json = new JSONArray(output);
                     layoutParamsImage.topMargin = 100;
                     foodamount = json.length();
@@ -218,11 +237,16 @@ public class ScrollingActivity extends AppCompatActivity {
                         setTextsAndImages();
                         setOnClickListeners();
                     }
+
+                    if(!drinkstocome) {
+                        enableButtons();
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }).execute("https://shrouded-oasis-85914.herokuapp.com/foods");
+        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/foods");
     }
 
 
@@ -298,15 +322,24 @@ public class ScrollingActivity extends AppCompatActivity {
             etsitäänid++;
         }
 
-        Toast.makeText(getBaseContext(), "You have selected " + imageArray[etsitäänid].getTag() + System.lineSeparator() +
+        /*Toast.makeText(getBaseContext(), "You have selected " + imageArray[etsitäänid].getTag() + System.lineSeparator() +
                 "Description: " + descriptionArray[etsitäänid] + System.lineSeparator() +
-                "ID: " + idArray[etsitäänid], Toast.LENGTH_SHORT).show();
+                "ID: " + idArray[etsitäänid], Toast.LENGTH_SHORT).show();*/
+
+        Intent intent = new Intent(this, SinglePost.class);
+        Bundle extras = new Bundle();
+        extras.putString("name",imageArray[etsitäänid].getTag().toString());
+        extras.putString("description",descriptionArray[etsitäänid].toString());
+        extras.putString("imageurl",imgurlArray[etsitäänid].toString());
+        intent.putExtras(extras);
+        startActivity(intent);
+
     }
 
 
 
 
-    public void emptyViews() {
+    public void emptyViews(View v) {
         for(int i = 0; i < foodamount+drinkamount; i++) {
             LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
             mainLayout.removeView(textArray[i]);
@@ -318,6 +351,27 @@ public class ScrollingActivity extends AppCompatActivity {
         descriptionArray = new String[100];
         imgurlArray = new String[100];
         idArray = new int[100];
+    }
+
+
+
+    public void disableButtons() {
+        buttonfood.setEnabled(false);
+        buttondrink.setEnabled(false);
+        buttonboth.setEnabled(false);
+        buttonempty.setEnabled(false);
+
+        Log.d("Buttons disabled","Buttons disabled");
+    }
+
+
+    public void enableButtons() {
+        buttonfood.setEnabled(true);
+        buttondrink.setEnabled(true);
+        buttonboth.setEnabled(true);
+        buttonempty.setEnabled(true);
+
+        Log.d("Buttons enabled","Buttons enabled");
     }
 
 

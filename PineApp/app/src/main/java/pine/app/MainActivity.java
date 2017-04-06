@@ -62,7 +62,7 @@ EditText username, password;
         }
         else
         {
-            Toast.makeText(getBaseContext(),"Kirjautuminen epäonnistui!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(),"Login epäonnistui!",Toast.LENGTH_SHORT).show();
         }
     }
 

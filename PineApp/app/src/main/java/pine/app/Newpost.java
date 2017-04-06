@@ -1,27 +1,54 @@
 package pine.app;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-public class Newpost extends AppCompatActivity {
+public class Newpost extends AppCompatActivity implements AsyncResponse {
     EditText title, description;
     Bitmap photo;
     String picturePath;
+    CheckBox cFood, cDrink;
     private Uri fileUri;
+    String ba1;
+
+    protected boolean shouldAskPermissions() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(23)
+    protected void askPermissions() {
+        String[] permissions = {
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+        };
+        int requestCode = 200;
+        requestPermissions(permissions, requestCode);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,35 +56,48 @@ public class Newpost extends AppCompatActivity {
         setContentView(R.layout.activity_newpost);
         title = (EditText)findViewById(R.id.eTitle);
         description = (EditText)findViewById(R.id.eDescription);
-
+        cFood = (CheckBox)findViewById(R.id.cfood);
+        cDrink = (CheckBox)findViewById(R.id.cDrink);
+        if (shouldAskPermissions())
+        {
+            askPermissions();
+        }
     }
 
     public void AddPicture(View v)
     {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        photoPickerIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+       // photoPickerIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, fileUri);
         Log.d("Pic","Startactivity");
         startActivityForResult(photoPickerIntent, 1);
 
-        // Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        // startActivityForResult(intent, 1);
-
     }
+
+
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1)
-            Log.d("IF","First IF succes");
-            if (resultCode == Activity.RESULT_OK)
-            Log.d("IF","Second IF succes");
+            Log.d("IF","data is: "+data.getExtras());
+            if (resultCode == Activity.RESULT_OK && requestCode == 1)
             {
+
                 Uri selectedImage = data.getData();
-                Log.d("Image","SelectedImage Done!");
-                photo = (Bitmap) data.getExtras().get("data");
+                Log.d("Image","selected image done!"+data.getData());
+                photo = null;
+                try
+                {
+                    photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                    Log.d("Photo","Onnnistui");
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+
                 Log.d("Image","Getting image url");
 
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -67,62 +107,55 @@ public class Newpost extends AppCompatActivity {
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 picturePath = cursor.getString(columnIndex);
+                Log.d("PicturePath is:",""+picturePath);
                 cursor.close();
                 Log.d("Image","Got image url");
 
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                //Bitmap photo = (Bitmap) data.getExtras().get("data");
                 Log.d("Image","Image rdy");
                 ImageView imageView = (ImageView) findViewById(R.id.Imageprev);
                 imageView.setImageBitmap(photo);
 
 
-               /* String filePath = getPath(selectedImage);
-                String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
-                //image_name_tv.setText(filePath);
-
-                if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png"))
-                {
-                    //FINE
-                    Log.d("File Accepted","UPLOAD FILE"+filePath);
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
-                    Log.d("Photo inserted","ok");
-                    ImageView imageView = (ImageView) findViewById(R.id.Imageprev);
-                    imageView.setImageBitmap(photo);
-
-
-                } else {
-                    //NOT IN REQUIRED FORMAT
-                }*/
             }
     }
-/*
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-        //imagePath = cursor.getString(column_index);
-
-        return cursor.getString(column_index);
-    }
-*/
-
-
-
-
-
-
-
-
-
-
 
 
     public void SendPost(View v)
     {
+        Log.d("SendPost","Alotus");
+        Bitmap bm = BitmapFactory.decodeFile(picturePath);
+        Log.d("SendPost","DecodeFileLöydetty");
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        Log.d("SendPost","ByteArrayOutputStrean aloitettu");
+        bm.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+        byte[] ba = bao.toByteArray();
+        String encodedImage =Base64.encodeToString(ba,Base64.DEFAULT);
 
+        String ntitle = title.getText().toString();
+        String ndescription= description.getText().toString();
+        String type = "NewPost";
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.delegate = this;
+        backgroundWorker.execute(type, ntitle, ndescription,encodedImage);
+
+        title.setText("");
+        description.setText("");
 
     }
 
+    @Override
+    public void processFinish(String output){
+        Log.d("ProcessFinished",output);
+
+        if(output != null)
+        {
+
+        }
+        else
+        {
+            Toast.makeText(getBaseContext(),"NewPost epäonnistui!",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -29,6 +29,29 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+            <Button
+                android:id="@+id/buttonFood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ruoat"
+                android:onClick="getFoods"/>
+
+            <Button
+                android:id="@+id/buttonDrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Juomat"
+                android:layout_gravity="right"
+                android:onClick="getDrinks"/>
+
+            <Button
+                android:id="@+id/buttonBoth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Molemmat"
+                android:layout_gravity="center_horizontal"
+                android:onClick="getBoth"/>
+
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

@@ -10,4 +10,5 @@
     <color name="upperGradientOrange">#E596BF</color>
     <color name="middleGradientOrange">#F1B685</color>
     <color name="bottomGradientOrange">#FCE9D6</color>
+    <color name="textcolor">#FFFFFF</color>
 </resources>

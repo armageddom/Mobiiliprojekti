@@ -123,6 +123,16 @@ public class Newpost extends AppCompatActivity implements AsyncResponse {
 
     public void SendPost(View v)
     {
+
+        String type = "";
+        if(cFood.isChecked() && !cDrink.isChecked())
+        {
+            type = "NewFood";
+        }
+        if(cDrink.isChecked()&& !cFood.isChecked())
+        {
+            type = "NewDrink";
+        }
         Log.d("SendPost","Alotus");
         Bitmap bm = BitmapFactory.decodeFile(picturePath);
         Log.d("SendPost","DecodeFileLöydetty");
@@ -134,13 +144,20 @@ public class Newpost extends AppCompatActivity implements AsyncResponse {
 
         String ntitle = title.getText().toString();
         String ndescription= description.getText().toString();
-        String type = "NewPost";
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.delegate = this;
-        backgroundWorker.execute(type, ntitle, ndescription,encodedImage);
 
-        title.setText("");
+            if(type.contains("New"))
+            {
+                Log.d("IF","Tuli iffiin");
+                BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+                backgroundWorker.delegate = this;
+                backgroundWorker.execute(type, ntitle, ndescription, encodedImage);
+            }
+            else
+                {
+                Toast.makeText(getBaseContext(), "Select food or drink category!", Toast.LENGTH_SHORT).show();
+            }
+                title.setText("");
         description.setText("");
 
     }
@@ -149,9 +166,11 @@ public class Newpost extends AppCompatActivity implements AsyncResponse {
     public void processFinish(String output){
         Log.d("ProcessFinished",output);
 
-        if(output != null)
+        if(output.contains("ok"))
         {
-
+            Toast.makeText(getBaseContext(), "NewPost onnistui!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,ScrollingActivity.class);
+            startActivity(intent);
         }
         else
         {

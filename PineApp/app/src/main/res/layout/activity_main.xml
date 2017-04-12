@@ -8,8 +8,8 @@
     android:background="@mipmap/orangegradient">
 
     <ImageView
-        android:layout_width="270dp"
-        android:layout_height="261dp"
+        android:layout_width="294dp"
+        android:layout_height="246dp"
         android:background="@mipmap/pineapphuge"
         android:layout_gravity="left|center_horizontal"
         android:layout_marginBottom="8dp"
@@ -31,7 +31,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.661"
+        app:layout_constraintVertical_bias="0.628"
         app:layout_constraintHorizontal_bias="0.501"
         android:textColor="@color/textcolor"/>
 
@@ -44,10 +44,9 @@
         android:textAlignment="center"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844"
+        app:layout_constraintVertical_bias="0.797"
         android:background="@drawable/roundedittext"/>
 
     <TextView
@@ -59,7 +58,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779"
+        app:layout_constraintVertical_bias="0.739"
         android:textColor="@color/textcolor"/>
 
     <EditText
@@ -70,31 +69,33 @@
         android:textAlignment="center"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703"
+        app:layout_constraintVertical_bias="0.684"
         android:background="@drawable/roundedittext" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="121dp"
+        android:layout_height="38dp"
         android:onClick="Login"
         android:text="@string/login"
         android:background="@color/upperGradientOrange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.965"
+        app:layout_constraintVertical_bias="0.921"
         android:textColor="@color/bottomGradientBlue"
-        android:layout_marginRight="84dp" />
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.209" />
 
     <Button
         android:id="@+id/bRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="121dp"
+        android:layout_height="38dp"
         android:onClick="Register"
         android:text="@string/register"
         android:background="@color/upperGradientOrange"
@@ -102,9 +103,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.965"
+        app:layout_constraintVertical_bias="0.936"
         android:textColor="@color/bottomGradientBlue"
-        app:layout_constraintHorizontal_bias="0.287" />
+        app:layout_constraintHorizontal_bias="0.779"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -114,14 +116,14 @@
         android:textSize="@dimen/PineApp"
         android:layout_gravity="left|center_horizontal"
         android:textAlignment="center"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textColor="@color/textcolor"
-        />
+        app:layout_constraintHorizontal_bias="0.502" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"

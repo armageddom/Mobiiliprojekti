@@ -38,7 +38,7 @@ import java.net.URL;
 
 public class ScrollingActivity extends AppCompatActivity {
 
-    int indeksi, id, foodamount, drinkamount;
+    int indeksi, id, foodamount, drinkamount, topmargin = 10;
     String name,description,imageurl,tagi;
     ImageView[] imageArray = new ImageView[100];
     TextView[] textArray = new TextView[100];
@@ -107,7 +107,7 @@ public class ScrollingActivity extends AppCompatActivity {
                 try {
 
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = 100;
+                    layoutParamsImage.topMargin = topmargin;
                     drinkamount = json.length();
 
                     for(int i = 0; i < drinkamount; i++) {
@@ -122,6 +122,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
 
                         ImageView foodimage = new ImageView(ScrollingActivity.this);
+                        foodimage.setScaleType(ImageView.ScaleType.FIT_XY);
                         imageArray[indeksi] = foodimage;
 
                         TextView foodtext = new TextView(ScrollingActivity.this);
@@ -182,10 +183,10 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = 100;
+                    layoutParamsImage.topMargin = topmargin;
                     drinkamount = json.length();
 
-                    for(int i = 0; i < foodamount; i++) {
+                    for(int i = 0; i < drinkamount; i++) {
                         JSONObject jsonobj = json.getJSONObject(i);
 
                         imageurl = jsonobj.getString("IMG_URL");
@@ -197,7 +198,9 @@ public class ScrollingActivity extends AppCompatActivity {
                         setTextsAndImages();
                         setOnClickListeners();
                     }
+
                     enableButtons();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -222,7 +225,7 @@ public class ScrollingActivity extends AppCompatActivity {
                 try {
 
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = 100;
+                    layoutParamsImage.topMargin = topmargin;
                     foodamount = json.length();
 
                     for(int i = 0; i < foodamount; i++) {
@@ -258,6 +261,7 @@ public class ScrollingActivity extends AppCompatActivity {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
 
         ImageView foodimage = new ImageView(ScrollingActivity.this);
+        foodimage.setScaleType(ImageView.ScaleType.FIT_XY);
         imageArray[indeksi] = foodimage;
 
         TextView foodtext = new TextView(ScrollingActivity.this);
@@ -321,10 +325,6 @@ public class ScrollingActivity extends AppCompatActivity {
         {
             etsitäänid++;
         }
-
-        /*Toast.makeText(getBaseContext(), "You have selected " + imageArray[etsitäänid].getTag() + System.lineSeparator() +
-                "Description: " + descriptionArray[etsitäänid] + System.lineSeparator() +
-                "ID: " + idArray[etsitäänid], Toast.LENGTH_SHORT).show();*/
 
         Intent intent = new Intent(this, SinglePost.class);
         Bundle extras = new Bundle();

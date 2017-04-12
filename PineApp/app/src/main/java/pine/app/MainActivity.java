@@ -13,6 +13,7 @@ import android.widget.Toast;
 public class MainActivity  extends AppCompatActivity implements AsyncResponse {
 EditText username, password;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,7 @@ EditText username, password;
 
     }
 
-    void Register(View v)
+    public void Register(View v)
     {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);

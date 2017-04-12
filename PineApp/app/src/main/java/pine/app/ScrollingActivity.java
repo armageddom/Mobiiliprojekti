@@ -72,15 +72,14 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+/*        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
 
             }
-        });
+        });*/
 
 
     }
@@ -194,7 +193,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     layoutParamsImage.topMargin = 100;
                     drinkamount = json.length();
 
-                    for(int i = 0; i < foodamount; i++) {
+                    for(int i = 0; i < drinkamount; i++) {
                         JSONObject jsonobj = json.getJSONObject(i);
 
                         imageurl = jsonobj.getString("IMG_URL");
@@ -384,7 +383,7 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
-    void newPost(View v)
+    public void newPost(View v)
     {
         Intent intent = new Intent(this,Newpost.class);
         startActivity(intent);

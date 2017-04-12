@@ -78,6 +78,6 @@
         android:onClick="newPost"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@mipmap/asd" />
+        app:srcCompat="@mipmap/pineapp" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,11 +1,13 @@
 package pine.app;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity  extends AppCompatActivity implements AsyncResponse {
@@ -17,6 +19,7 @@ EditText username, password;
         setContentView(R.layout.activity_main);
         username = (EditText)findViewById(R.id.eUsername);
         password = (EditText)findViewById(R.id.ePassword);
+        getSupportActionBar().hide();
 
 
 
@@ -25,6 +28,9 @@ EditText username, password;
 
     public void Login(View v)
     {
+        TextView myTextView = (TextView) findViewById(R.id.textView);
+        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/33535gillsansmt.ttf");
+        myTextView.setTypeface(typeface);
 
         String uName, uPassword;
         uName = username.getText().toString();

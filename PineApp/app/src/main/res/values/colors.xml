@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#3BDACA</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="upperGradientBlue">#4FCDEB</color>
+    <color name="middleGradientBlue">#3BDACA</color>
+    <color name="bottomGradientBlue">#E6F0FB</color>
+    <color name="upperGradientOrange">#E596BF</color>
+    <color name="middleGradientOrange">#F1B685</color>
+    <color name="bottomGradientOrange">#FCE9D6</color>
+    <color name="textcolor">#FFFFFF</color>
 </resources>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="pine.app.ScrollingActivity">
+    tools:context="pine.app.SinglePost">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,55 +29,18 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <Button
-                android:id="@+id/buttonFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ruoat"
-                android:onClick="getFoods"/>
-
-            <Button
-                android:id="@+id/buttonDrink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Juomat"
-                android:layout_gravity="right"
-                android:onClick="getDrinks"/>
-
-            <Button
-                android:id="@+id/buttonBoth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Molemmat"
-                android:layout_gravity="center_horizontal"
-                android:onClick="getBoth"/>
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_scrolling"
-        android:id="@+id/include" />
-
-    <Button
-        android:id="@+id/buttonEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="Tyhjennä"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|left"
-        android:onClick="emptyViews"/>
+    <include layout="@layout/content_single_post" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:clickable="true"
-        android:onClick="newPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@mipmap/asd" />
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </android.support.design.widget.CoordinatorLayout>

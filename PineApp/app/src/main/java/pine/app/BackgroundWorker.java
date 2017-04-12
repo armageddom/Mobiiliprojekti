@@ -53,6 +53,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         //URL laitetaan minne lähetetään
         String login_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/login";
         String register_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/users";
+        String newpost_url = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/foods";
+        String newpost_url2 = "http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks";
 
 
         if (type.equals("login")){
@@ -101,25 +103,46 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         }
 
-        else if (type.equals("response"))
+        else if (type.equals("NewFood"))
         {
             try {
 
-                String user_name = params[1];
-                String password = params[2];
-                Log.d("Response",user_name+password);
-                URL url = new URL(login_url);
-                URLConnection conn = url.openConnection();
+                String ntitle = params[1];
+                String ndescription = params[2];
+                String picture = params[3];
+                Log.d("NewPost",""+picture);
 
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("food_name",ntitle);
+                jsonObject.put("description",ndescription);
+                jsonObject.put("picture",picture);
+                String newPostjson = jsonObject.toString();
+                Log.d("JsonString","Tehty");
+
+                URL url = new URL(newpost_url);
+                URLConnection conn = url.openConnection();
                 HttpURLConnection httpConn = (HttpURLConnection) conn;
                 httpConn.setAllowUserInteraction(false);
                 httpConn.setInstanceFollowRedirects(true);
-                httpConn.setRequestMethod("GET");
+                httpConn.setDoOutput(true);
+                httpConn.setDoInput(true);
+                httpConn.setRequestMethod("POST");
+                httpConn.setRequestProperty("Content-Type","application/json");
                 httpConn.connect();
+
+                OutputStream outputStream = httpConn.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedWriter.write(newPostjson);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                Log.d("output","Streami toimii");
 
                 InputStream is = httpConn.getInputStream();
                 parsedString = convertinputStreamToString(is);
                 httpConn.disconnect();
+                Log.d("Return ParsedString","Lahetetaan Value takaisin");
+
                 return parsedString;
             } catch (ProtocolException e) {
                 e.printStackTrace();
@@ -127,9 +150,66 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
         }
+
+        else if (type.equals("NewDrink"))
+        {
+            try {
+
+                String ntitle = params[1];
+                String ndescription = params[2];
+                String picture = params[3];
+                Log.d("NewPost",""+picture);
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("drink_name",ntitle);
+                jsonObject.put("description",ndescription);
+                jsonObject.put("picture",picture);
+                String newPostjson = jsonObject.toString();
+                Log.d("JsonString","Tehty");
+
+                URL url = new URL(newpost_url2);
+                URLConnection conn = url.openConnection();
+                HttpURLConnection httpConn = (HttpURLConnection) conn;
+                httpConn.setAllowUserInteraction(false);
+                httpConn.setInstanceFollowRedirects(true);
+                httpConn.setDoOutput(true);
+                httpConn.setDoInput(true);
+                httpConn.setRequestMethod("POST");
+                httpConn.setRequestProperty("Content-Type","application/json");
+                httpConn.connect();
+
+                OutputStream outputStream = httpConn.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedWriter.write(newPostjson);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                Log.d("output","Streami toimii");
+
+                InputStream is = httpConn.getInputStream();
+                parsedString = convertinputStreamToString(is);
+                httpConn.disconnect();
+                Log.d("Return ParsedString","Lahetetaan Value takaisin");
+
+                return parsedString;
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
         else if(type.equals("register"))
         {
 
@@ -226,6 +306,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } finally {
                 ists.close();
             }
+            Log.d("InputStreamToString","Poistutaan");
             return sb.toString();
         } else {
             return "";

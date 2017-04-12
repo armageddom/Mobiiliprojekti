@@ -50,6 +50,12 @@ EditText username, password;
         startActivity(intent);
     }
 
+    void Testaus(View v)
+    {
+        Intent intent = new Intent(this,Newpost.class);
+        startActivity(intent);
+    }
+
     @Override
     public void processFinish(String output){
     Log.d("ProcessFinished",output);
@@ -62,7 +68,7 @@ EditText username, password;
         }
         else
         {
-            Toast.makeText(getBaseContext(),"Kirjautuminen epäonnistui!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(),"Login epäonnistui!",Toast.LENGTH_SHORT).show();
         }
     }
 

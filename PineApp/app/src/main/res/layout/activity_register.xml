@@ -20,9 +20,11 @@
             android:id="@+id/eFirstname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName"
+            android:background="@drawable/roundedittext"/>
     </TableRow>
     <TableRow>
         <TextView
@@ -32,9 +34,11 @@
             android:id="@+id/eSurname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName"
+            android:background="@drawable/roundedittext"/>
         </TableRow>
     <TableRow>
         <TextView
@@ -44,9 +48,11 @@
             android:id="@+id/eUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName"
+            android:background="@drawable/roundedittext"/>
     </TableRow>
     <TableRow>
         <TextView
@@ -56,10 +62,11 @@
             android:id="@+id/eMail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:background="@drawable/roundedittext"/>
     </TableRow>
     <TableRow>
         <TextView
@@ -69,28 +76,33 @@
             android:id="@+id/ePassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:background="@drawable/roundedittext"/>
     </TableRow>
     <TableRow>
         <Button
             android:id="@+id/bCancel"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:onClick="Cancel"
             android:text="@string/cancel"
             android:textColor="@color/bottomGradientBlue"
             android:background="@color/upperGradientOrange"/>
+
         <Button
             android:id="@+id/bRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@color/upperGradientOrange"
             android:onClick="Register"
             android:text="@string/register"
-            android:layout_marginLeft="15dp"
-            android:textColor="@color/bottomGradientBlue"
-            android:background="@color/upperGradientOrange"/>
+            android:textColor="@color/bottomGradientBlue" />
     </TableRow>
 
 

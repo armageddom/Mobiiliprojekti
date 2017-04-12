@@ -384,6 +384,12 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
+    void newPost(View v)
+    {
+        Intent intent = new Intent(this,Newpost.class);
+        startActivity(intent);
+    }
+
 
 }
 

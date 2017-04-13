@@ -2,15 +2,19 @@ package pine.app;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,8 +51,10 @@ public class ScrollingActivity extends AppCompatActivity {
     String[] descriptionArray = new String[100];
     String[] imgurlArray = new String[100];
     int[] idArray = new int[100];
-    Button buttonfood, buttondrink, buttonboth, buttonempty;
+    Button buttonfood, buttondrink, buttonboth, buttonempty, buttonhaista;
     boolean drinkstocome = false;
+    NavigationView mNavigationView;
+    DrawerLayout mDrawerLayout;
 
     LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
     LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
@@ -65,24 +71,36 @@ public class ScrollingActivity extends AppCompatActivity {
         buttonfood = (Button) findViewById(R.id.buttonFood);
         buttondrink = (Button) findViewById(R.id.buttonDrink);
         buttonboth = (Button) findViewById(R.id.buttonBoth);
-        buttonempty = (Button) findViewById(R.id.buttonEmpty);
+//        buttonempty = (Button) findViewById(R.id.buttonEmpty);
+//        buttonhaista = (Button) findViewById(R.id.buttonEmpty1);
+
 
         getBoth(buttonfood);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-/*        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-            }
-        });*/
-
-
     }
+
+    private void init() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                mDrawerLayout.closeDrawers();
+                menuItem.setChecked(true);
+               /* switch (menuItem.getItemId()) {
+                case R.id.nav_home:
+                        // TODO - Do something
+                    break;
+                    // TODO - Handle other items
+                }*/
+                return true;
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -367,7 +385,7 @@ public class ScrollingActivity extends AppCompatActivity {
         buttonfood.setEnabled(false);
         buttondrink.setEnabled(false);
         buttonboth.setEnabled(false);
-        buttonempty.setEnabled(false);
+    //    buttonempty.setEnabled(false);
 
         Log.d("Buttons disabled","Buttons disabled");
     }
@@ -377,7 +395,7 @@ public class ScrollingActivity extends AppCompatActivity {
         buttonfood.setEnabled(true);
         buttondrink.setEnabled(true);
         buttonboth.setEnabled(true);
-        buttonempty.setEnabled(true);
+    //    buttonempty.setEnabled(true);
 
         Log.d("Buttons enabled","Buttons enabled");
     }

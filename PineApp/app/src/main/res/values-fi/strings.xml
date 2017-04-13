@@ -13,4 +13,11 @@
     <string name="large_text">
         "Material is the metaphor.\n\n"
     </string>
+
+    <string name="AddPic">Lisää kuva</string>
+    <string name="SendPic">Lähetä</string>
+    <string name="SelectDrink">Juoma</string>
+    <string name="SelectFodd">Ruoka</string>
+    <string name="PostTitle">Otsikko</string>
+    <string name="PostDesc">Kuvaus</string>
 </resources>

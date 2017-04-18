@@ -15,58 +15,9 @@
         android:id="@+id/scrollingLayout"
         android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:id="@+id/tekstijutska"
-            android:text="this is text" />
-
-        <!--<ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="0.5"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            app:srcCompat="@drawable/maksalaatikko" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Maksalaatikko"
-            android:layout_gravity="center"
-            android:id="@+id/yks" />
 
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="0.5"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            app:srcCompat="@drawable/arrowleft" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Maksalaatikko"
-            android:layout_gravity="center"
-            android:id="@+id/kaks"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="0.5"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            app:srcCompat="@drawable/manki" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Maksalaatikko"
-            android:layout_gravity="center"
-            android:id="@+id/kol"/>-->
 
 
     </LinearLayout>

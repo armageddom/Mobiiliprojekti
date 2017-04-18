@@ -47,10 +47,10 @@ public class ScrollingActivity extends AppCompatActivity {
     String[] descriptionArray = new String[100];
     String[] imgurlArray = new String[100];
     int[] idArray = new int[100];
-    Button buttonfood, buttondrink, buttonboth, buttonempty;
+    Button buttonfood, buttondrink/*, buttonboth, buttonempty*/;
     boolean drinkstocome = false;
 
-    int topmargin = 100;
+    int margin = 50;
     LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -66,8 +66,8 @@ public class ScrollingActivity extends AppCompatActivity {
 
         buttonfood = (Button) findViewById(R.id.buttonFood);
         buttondrink = (Button) findViewById(R.id.buttonDrink);
-        buttonboth = (Button) findViewById(R.id.buttonBoth);
-        buttonempty = (Button) findViewById(R.id.buttonEmpty);
+        /*buttonboth = (Button) findViewById(R.id.buttonBoth);
+        buttonempty = (Button) findViewById(R.id.buttonEmpty);*/
 
         getBoth(buttonfood);
 
@@ -117,7 +117,8 @@ public class ScrollingActivity extends AppCompatActivity {
             public void processFinish(String output) {
                 try {
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = topmargin;
+                    layoutParamsImage.topMargin = margin;
+                    layoutParamsText.bottomMargin = margin;
                     foodamount = json.length();
 
                     for(int i = 0; i < foodamount; i++) {
@@ -161,7 +162,8 @@ public class ScrollingActivity extends AppCompatActivity {
             public void processFinish(String output) {
                 try {
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = topmargin;
+                    layoutParamsImage.topMargin = margin;
+                    layoutParamsText.bottomMargin = margin;
                     drinkamount = json.length();
 
                     for(int i = 0; i < drinkamount; i++) {
@@ -208,7 +210,8 @@ public class ScrollingActivity extends AppCompatActivity {
                 try {
 
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = topmargin;
+                    layoutParamsImage.topMargin = margin;
+                    layoutParamsText.bottomMargin = margin;
                     drinkamount = json.length();
 
                     for(int i = 0; i < drinkamount; i++) {
@@ -325,16 +328,16 @@ public class ScrollingActivity extends AppCompatActivity {
     public void disableButtons() {
         buttonfood.setEnabled(false);
         buttondrink.setEnabled(false);
-        buttonboth.setEnabled(false);
-        buttonempty.setEnabled(false);
+        /*buttonboth.setEnabled(false);
+        buttonempty.setEnabled(false);*/
     }
 
 
     public void enableButtons() {
         buttonfood.setEnabled(true);
         buttondrink.setEnabled(true);
-        buttonboth.setEnabled(true);
-        buttonempty.setEnabled(true);
+        /*buttonboth.setEnabled(true);
+        buttonempty.setEnabled(true);*/
     }
 
 

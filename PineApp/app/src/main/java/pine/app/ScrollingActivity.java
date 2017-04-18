@@ -47,11 +47,15 @@ public class ScrollingActivity extends AppCompatActivity {
     String[] descriptionArray = new String[100];
     String[] imgurlArray = new String[100];
     int[] idArray = new int[100];
-    Button buttonfood, buttondrink, buttonboth, buttonempty;
+    Button buttonfood, buttondrink/*, buttonboth, buttonempty*/;
     boolean drinkstocome = false;
 
-    LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
-    LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
+    int margin = 50;
+    LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
+
 
 
 
@@ -64,8 +68,8 @@ public class ScrollingActivity extends AppCompatActivity {
 
         buttonfood = (Button) findViewById(R.id.buttonFood);
         buttondrink = (Button) findViewById(R.id.buttonDrink);
-        buttonboth = (Button) findViewById(R.id.buttonBoth);
-        buttonempty = (Button) findViewById(R.id.buttonEmpty);
+        /*buttonboth = (Button) findViewById(R.id.buttonBoth);
+        buttonempty = (Button) findViewById(R.id.buttonEmpty);*/
 
         getBoth(buttonfood);
 
@@ -106,131 +110,17 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
-    public void addDrinksToFoods() {
-        disableButtons();
-        JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
-            @Override
-            public void processFinish(String output) {
-
-                try {
-
-                    JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = 100;
-                    drinkamount = json.length();
-
-                    for(int i = 0; i < drinkamount; i++) {
-                        JSONObject jsonobj = json.getJSONObject(i);
-
-                        imageurl = jsonobj.getString("IMG_URL");
-                        description = jsonobj.getString("description");
-                        name = jsonobj.getString("drink_name");
-                        id = jsonobj.getInt("id");
-
-                        indeksi = i+foodamount;
-                        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
-
-                        ImageView foodimage = new ImageView(ScrollingActivity.this);
-                        imageArray[indeksi] = foodimage;
-
-                        TextView foodtext = new TextView(ScrollingActivity.this);
-                        foodtext.setText(name);
-                        textArray[indeksi] = foodtext;
-
-                        imageArray[indeksi].setLayoutParams(layoutParamsImage);
-                        mainLayout.addView(imageArray[indeksi]);
-
-                        textArray[indeksi].setLayoutParams(layoutParamsText);
-                        textArray[indeksi].setGravity(Gravity.CENTER_HORIZONTAL);
-                        mainLayout.addView(textArray[indeksi]);
-
-                        textArray[indeksi].setText(name);
-                        textArray[indeksi].setTag(name);
-                        imageArray[indeksi].setTag(name);
-                        textArray[indeksi].setId(id);
-
-                        idArray[indeksi] = id;
-                        descriptionArray[indeksi] = description;
-                        imgurlArray[indeksi] = (imageurl);
-
-                        Picasso.with(ScrollingActivity.this).load(imgurlArray[indeksi]).into(imageArray[indeksi]);
-                        setOnClickListeners();
-
-                        enableButtons();
-                        drinkstocome = false;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks");
-    }
-
-
-    public void getBoth(View v) {
-        drinkstocome = true;
-        getFoods(buttonfood);
-        addDrinksToFoods();
-    }
-
-
-
-
-
-
-    public void getDrinks(View v) {
-
-        disableButtons();
-        emptyViews(buttonfood);
-
-        JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
-            @Override
-            public void processFinish(String output) {
-
-                try {
-
-
-                    JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = 100;
-                    drinkamount = json.length();
-
-                    for(int i = 0; i < drinkamount; i++) {
-                        JSONObject jsonobj = json.getJSONObject(i);
-
-                        imageurl = jsonobj.getString("IMG_URL");
-                        description = jsonobj.getString("description");
-                        name = jsonobj.getString("drink_name");
-                        id = jsonobj.getInt("id");
-
-                        indeksi = i;
-                        setTextsAndImages();
-                        setOnClickListeners();
-                    }
-                    enableButtons();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks");
-    }
-
-
-
-
-
-
     public void getFoods(View v) {
-
         disableButtons();
         emptyViews(buttonfood);
 
         JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
             @Override
             public void processFinish(String output) {
-
                 try {
-
                     JSONArray json = new JSONArray(output);
-                    layoutParamsImage.topMargin = 100;
+                    layoutParamsImage.topMargin = margin;
+                    layoutParamsText.bottomMargin = margin;
                     foodamount = json.length();
 
                     for(int i = 0; i < foodamount; i++) {
@@ -246,6 +136,12 @@ public class ScrollingActivity extends AppCompatActivity {
                         setOnClickListeners();
                     }
 
+                    for(int a = 0; a < foodamount; a++) {
+                        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
+                        mainLayout.addView(imageArray[foodamount-a-1]);
+                        mainLayout.addView(textArray[foodamount-a-1]);
+                    }
+
                     if(!drinkstocome) {
                         enableButtons();
                     }
@@ -258,14 +154,102 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
+    public void getDrinks(View v) {
+
+        disableButtons();
+        emptyViews(buttonfood);
+
+        JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONArray json = new JSONArray(output);
+                    layoutParamsImage.topMargin = margin;
+                    layoutParamsText.bottomMargin = margin;
+                    drinkamount = json.length();
+
+                    for(int i = 0; i < drinkamount; i++) {
+                        JSONObject jsonobj = json.getJSONObject(i);
+
+                        imageurl = jsonobj.getString("IMG_URL");
+                        description = jsonobj.getString("description");
+                        name = jsonobj.getString("drink_name");
+                        id = jsonobj.getInt("id");
+
+                        indeksi = i;
+                        setTextsAndImages();
+                        setOnClickListeners();
+                    }
+
+                    for(int a = 0; a < drinkamount; a++) {
+                        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
+                        mainLayout.addView(imageArray[drinkamount-a-1]);
+                        mainLayout.addView(textArray[drinkamount-a-1]);
+                    }
+
+                    enableButtons();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks");
+    }
 
 
+    public void getBoth(View v) {
+        drinkstocome = true;
+        getFoods(buttonfood);
+        addDrinksToFoods();
+    }
+
+
+    public void addDrinksToFoods() {
+        disableButtons();
+        JsonTask asyncTask = (JsonTask) new JsonTask(new JsonTask.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+
+                try {
+
+                    JSONArray json = new JSONArray(output);
+                    layoutParamsImage.topMargin = margin;
+                    layoutParamsText.bottomMargin = margin;
+                    drinkamount = json.length();
+
+                    for(int i = 0; i < drinkamount; i++) {
+                        JSONObject jsonobj = json.getJSONObject(i);
+
+                        imageurl = jsonobj.getString("IMG_URL");
+                        description = jsonobj.getString("description");
+                        name = jsonobj.getString("drink_name");
+                        id = jsonobj.getInt("id");
+
+                        indeksi = i+foodamount;
+                        setTextsAndImages();
+                        setOnClickListeners();
+
+                        enableButtons();
+                        drinkstocome = false;
+                    }
+
+                    for(int b = 0; b < drinkamount; b++) {
+                        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
+                        mainLayout.addView(imageArray[drinkamount+foodamount-b-1]);
+                        mainLayout.addView(textArray[drinkamount+foodamount-b-1]);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).execute("http://ec2-35-167-155-40.us-west-2.compute.amazonaws.com/drinks");
+    }
 
 
     public void setTextsAndImages() {
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.scrollingLayout);
-
         ImageView foodimage = new ImageView(ScrollingActivity.this);
+        foodimage.setAdjustViewBounds(true);
         imageArray[indeksi] = foodimage;
 
         TextView foodtext = new TextView(ScrollingActivity.this);
@@ -273,11 +257,9 @@ public class ScrollingActivity extends AppCompatActivity {
         textArray[indeksi] = foodtext;
 
         imageArray[indeksi].setLayoutParams(layoutParamsImage);
-        mainLayout.addView(imageArray[indeksi]);
 
         textArray[indeksi].setLayoutParams(layoutParamsText);
         textArray[indeksi].setGravity(Gravity.CENTER_HORIZONTAL);
-        mainLayout.addView(textArray[indeksi]);
 
         textArray[indeksi].setText(name);
         textArray[indeksi].setTag(name);
@@ -290,11 +272,6 @@ public class ScrollingActivity extends AppCompatActivity {
 
         Picasso.with(ScrollingActivity.this).load(imgurlArray[indeksi]).into(imageArray[indeksi]);
     }
-
-
-
-
-
 
 
     public void setOnClickListeners() {
@@ -317,11 +294,6 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     public void clickityclick() {
         int etsitäänid = 0;
 
@@ -330,10 +302,6 @@ public class ScrollingActivity extends AppCompatActivity {
             etsitäänid++;
         }
 
-        /*Toast.makeText(getBaseContext(), "You have selected " + imageArray[etsitäänid].getTag() + System.lineSeparator() +
-                "Description: " + descriptionArray[etsitäänid] + System.lineSeparator() +
-                "ID: " + idArray[etsitäänid], Toast.LENGTH_SHORT).show();*/
-
         Intent intent = new Intent(this, SinglePost.class);
         Bundle extras = new Bundle();
         extras.putString("name",imageArray[etsitäänid].getTag().toString());
@@ -341,10 +309,7 @@ public class ScrollingActivity extends AppCompatActivity {
         extras.putString("imageurl",imgurlArray[etsitäänid].toString());
         intent.putExtras(extras);
         startActivity(intent);
-
     }
-
-
 
 
     public void emptyViews(View v) {
@@ -362,24 +327,19 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
-
     public void disableButtons() {
         buttonfood.setEnabled(false);
         buttondrink.setEnabled(false);
-        buttonboth.setEnabled(false);
-        buttonempty.setEnabled(false);
-
-        Log.d("Buttons disabled","Buttons disabled");
+        /*buttonboth.setEnabled(false);
+        buttonempty.setEnabled(false);*/
     }
 
 
     public void enableButtons() {
         buttonfood.setEnabled(true);
         buttondrink.setEnabled(true);
-        buttonboth.setEnabled(true);
-        buttonempty.setEnabled(true);
-
-        Log.d("Buttons enabled","Buttons enabled");
+        /*buttonboth.setEnabled(true);
+        buttonempty.setEnabled(true);*/
     }
 
 
@@ -388,8 +348,6 @@ public class ScrollingActivity extends AppCompatActivity {
         Intent intent = new Intent(this,Newpost.class);
         startActivity(intent);
     }
-
-
 }
 
 

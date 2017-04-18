@@ -44,13 +44,13 @@
                 android:layout_gravity="right"
                 android:onClick="getDrinks"/>
 
-            <Button
+            <!--<Button
                 android:id="@+id/buttonBoth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Molemmat"
                 android:layout_gravity="center_horizontal"
-                android:onClick="getBoth"/>
+                android:onClick="getBoth"/>-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -58,7 +58,8 @@
     <include layout="@layout/content_scrolling"
         android:id="@+id/include" />
 
-    <Button
+
+    <!--<Button
         android:id="@+id/buttonEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,7 +67,19 @@
         android:text="Tyhjennä"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="top|left"
-        android:onClick="emptyViews"/>
+        android:onClick="emptyViews"/>-->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        android:onClick="newPost"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|right|end"
+        app:srcCompat="@mipmap/pineapp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

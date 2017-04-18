@@ -2,9 +2,22 @@
     <string name="app_name">PineApp</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_single_post">SinglePost</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="firstname">First name</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="cancel">Cancel</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
-
-
     </string>
+
+    <string name="AddPic">Select photo</string>
+    <string name="SendPic">Send</string>
+    <string name="SelectDrink">Drink</string>
+    <string name="SelectFodd">Food</string>
+    <string name="PostTitle">Tittle</string>
+    <string name="PostDesc">Description</string>
 </resources>

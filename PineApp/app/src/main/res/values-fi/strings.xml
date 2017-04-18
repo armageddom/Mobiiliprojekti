@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">PineApp</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="title_activity_single_post">Yksittäinen julkaisu</string>
+    <string name="login">Kirjaudu sisään</string>
+    <string name="register">Rekisteröidy</string>
+    <string name="username">Käyttäjänimi</string>
+    <string name="password">Salasana</string>
+    <string name="firstname">Etunimi</string>
+    <string name="surname">Sukunimi</string>
+    <string name="email">Sähköposti</string>
+    <string name="cancel">Peruuta</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+    </string>
+
+    <string name="AddPic">Lisää kuva</string>
+    <string name="SendPic">Lähetä</string>
+    <string name="SelectDrink">Juoma</string>
+    <string name="SelectFodd">Ruoka</string>
+    <string name="PostTitle">Otsikko</string>
+    <string name="PostDesc">Kuvaus</string>
+</resources>

@@ -29,13 +29,13 @@ EditText Firstname, Lastname, Username, Email, Password;
     }
 
 
-    void Cancel(View v)
+    public void Cancel(View v)
     {
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 
-    void Register(View v)
+   public void Register(View v)
     {
         int approved = 4;
         String notice = "";

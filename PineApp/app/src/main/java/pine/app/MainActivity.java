@@ -1,15 +1,18 @@
 package pine.app;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity  extends AppCompatActivity implements AsyncResponse {
 EditText username, password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +20,7 @@ EditText username, password;
         setContentView(R.layout.activity_main);
         username = (EditText)findViewById(R.id.eUsername);
         password = (EditText)findViewById(R.id.ePassword);
+        getSupportActionBar().hide();
 
 
 
@@ -25,6 +29,9 @@ EditText username, password;
 
     public void Login(View v)
     {
+        TextView myTextView = (TextView) findViewById(R.id.textView);
+        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/33535gillsansmt.ttf");
+        myTextView.setTypeface(typeface);
 
         String uName, uPassword;
         uName = username.getText().toString();
@@ -38,11 +45,13 @@ EditText username, password;
 
     }
 
-    void Register(View v)
+    public void Register(View v)
     {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
+
+
 
     @Override
     public void processFinish(String output){
@@ -56,7 +65,7 @@ EditText username, password;
         }
         else
         {
-            Toast.makeText(getBaseContext(),"Kirjautuminen epäonnistui!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(),"Login epäonnistui!",Toast.LENGTH_SHORT).show();
         }
     }
 

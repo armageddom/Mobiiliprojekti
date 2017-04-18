@@ -23,7 +23,7 @@ public class SinglePost extends AppCompatActivity {
 
         LinearLayout singlePostLayout = (LinearLayout) findViewById(R.id.singlePostLayout);
 
-        LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700);
+        LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParamsImage.topMargin = 100;
         LinearLayout.LayoutParams layoutParamsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
 
@@ -36,6 +36,7 @@ public class SinglePost extends AppCompatActivity {
         }
 
         ImageView foodimage = new ImageView(SinglePost.this);
+        foodimage.setAdjustViewBounds(true);
         Picasso.with(SinglePost.this).load(imageurl).into(foodimage);
         foodimage.setLayoutParams(layoutParamsImage);
         singlePostLayout.addView(foodimage);

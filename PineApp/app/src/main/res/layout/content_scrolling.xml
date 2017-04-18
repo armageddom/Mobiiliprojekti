@@ -69,6 +69,8 @@
             android:id="@+id/kol"/>-->
 
 
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
+

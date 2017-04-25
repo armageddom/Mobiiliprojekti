@@ -1,5 +1,6 @@
 package pine.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -66,10 +67,10 @@ public class ScrollingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_scrolling);
 
         // Setup refresh listener which triggers new data loading
-
         buttonfood = (Button) findViewById(R.id.buttonFood);
         buttondrink = (Button) findViewById(R.id.buttonDrink);
         /*buttonboth = (Button) findViewById(R.id.buttonBoth);
@@ -101,27 +102,6 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     public void getFoods(View v) {
@@ -363,6 +343,5 @@ public class ScrollingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
 
 

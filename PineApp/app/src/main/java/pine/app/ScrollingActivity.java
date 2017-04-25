@@ -80,7 +80,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mDrawerList = (ListView)findViewById(R.id.navList);
+        //mDrawerList = (ListView)findViewById(R.id.navList);
 
 
 
@@ -94,14 +94,14 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         });*/
     }
-
+/*
     private void addDrawerItems() {
         String[] osArray = { "Android", "iOS", "Windows", "OS X", "Linux" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
     }
 
-
+*/
 
 
     public void getFoods(View v) {

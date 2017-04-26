@@ -13,4 +13,11 @@
     <string name="large_text">
         "Material is the metaphor.\n\n"
     </string>
+
+    <string name="AddPic">Добавить рисунок</string>
+    <string name="SendPic">Отправить картинку</string>
+    <string name="SelectDrink">напиток</string>
+    <string name="SelectFodd">Пища</string>
+    <string name="PostTitle">заглавие</string>
+    <string name="PostDesc">описание</string>
 </resources>
